@@ -1,9 +1,15 @@
 const express = require('express');
-const monngose = require('mongoose');
+const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-const cors = require('cora');
+const cors = require('cors');
 
-mongoose.connect('mongodb+srv://vindhyalakshmiofficial_db_user:FYWkIKXaT0FIQwZM@cluster0.eccgabx.mongodb.net/')
+// mongoose.connect('mongodb+srv://vindhyalakshmiofficial_db_user:vindhya1@cluster0.eccgabx.mongodb.net/')
+// const uri = 'mongodb+srv://vindhyalakshmiofficial_db_user:vindhya1@cluster0.eccgabx.mongodb.net/';
+const uri = 'mongodb://localhost:27017/ecommerce2026';
+
+console.log(uri);
+
+mongoose.connect(uri)
 .then(() => console.log("MongoDB connected"))
 .catch((error) => console.log(error));
 
@@ -14,7 +20,7 @@ const PORT = process.env.PORT || 5000
 
 app.use(
     cors({
-        origin:' http://localhost:5173/',
+        origin:'http://localhost:5173/',
         methods : ['GET', 'POST', 'PUT', 'DELETE'],
         allowedHeaders : [
             "Content-Type",
@@ -26,4 +32,9 @@ app.use(
         ],
         credentials : true
     })
-)
+);
+
+app.use(cookieParser());
+app.use(express.json());
+
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
