@@ -1,7 +1,9 @@
+import { Button } from "@/components/ui/button";
+
 function App() {
   return (
-    <div>
-      <h1>E-Commerce App</h1>
+    <div className="p-10">
+      <Button>Shop Now</Button>
     </div>
   );
 }
