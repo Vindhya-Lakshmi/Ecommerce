@@ -15,6 +15,7 @@
   import ShoppingListing from "./pages/shopping-view/listing";
 import CheckAuth from "./components/common/check-auth";
 import AdminLayout from "./components/admin-view/layout";
+import UnauthPage from "./pages/unauth-page";
 
   function App() {
 
@@ -60,8 +61,10 @@ import AdminLayout from "./components/admin-view/layout";
             <Route path="listing" element={<ShoppingListing/>}/>
 
           </Route>
-          <Route path="*" element={<NotFound/>} />
         </Route>
+        <Route path="/unauth-page" element={<UnauthPage/>}/>
+        <Route path="*" element={<NotFound/>} />
+
       </Routes>
 
       </div>
