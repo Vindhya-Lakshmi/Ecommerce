@@ -47,6 +47,8 @@ function Button({
   asChild = false,
   ...props
 }) {
+    const Comp = asChild ? Slot : "button";
+
   return (
     <Comp
       data-slot="button"
