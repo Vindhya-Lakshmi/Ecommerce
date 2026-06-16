@@ -5,8 +5,9 @@ const User = require('../../models/User');
 
 
 
-const registerUser = async(req,res) => {
-    const { userName, email, password} = req.body;
+const registerUser = async (req, res) => {
+    console.log("BODY:", req.body);
+    const { userName, email, password } = req.body;
     try {
         const hashPassword = await bcrypt.hash(password, 12);
         const newUser = new User({
@@ -14,7 +15,15 @@ const registerUser = async(req,res) => {
             email,
             password: hashPassword,
 
+
         });
+        console.log("About to save:", newUser);
+        console.log({
+            userName,
+            email,
+            password
+        });
+        console.log(User.schema.obj);
 
         await newUser.save()
         res.status(200).json({
@@ -22,23 +31,27 @@ const registerUser = async(req,res) => {
             message: "registration successful",
         })
 
-    }catch (e) {
-        console.log(e);
+    } catch (e) {
+        
+        console.log("REGISTER ERROR:", e);
         res.status(500).json({
             success: false,
-            message: "some error occured",
+            message: e.message,
+            stack: e.stack
         })
     }
 };
 
-const login = async(req,res) => {
-       try {
+const login = async (req, res) => {
+    try {
 
-    }catch (e) {
+    } catch (e) {
         console.log(e);
         res.status(500).json({
             success: false,
-            message: "some error occured",
+            message: e.message,
+            stack: e.stack
+
         })
     }
 }
