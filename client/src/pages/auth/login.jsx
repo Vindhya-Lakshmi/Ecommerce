@@ -7,11 +7,16 @@ import { loginFormControls } from "@/config"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+
+
+
 
 
 const initialState = {
-    email : '',
-    password : ''
+    email: '',
+    password: ''
 }
 
 
@@ -19,31 +24,38 @@ function AuthLogin() {
 
     const [formData, setFormData] = useState(initialState)
 
-    function onSubmit() {
-    }
+    function onSubmit(e) {
+     e.preventDefault();
+       toast.success("Toast is working!");
+}
+    
 
-    return(
+    return (
         <div className="mx-auto w-full max-w-md space-y-6 ">
+
+            
             <div className="text-center">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                Sign in to your account</h1>
-            <p className="mt-2 ">
-                   Don't have an account?{' '}
-                <Link className="font-medium ml-2 text-primary hover:underline"
-                to='/auth/register'>
-                    Register
-                </Link>
-            </p>
+                <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                    Sign in to your account</h1>
+                <p className="mt-2 ">
+                    Don't have an account?{' '}
+                    <Link className="font-medium ml-2 text-primary hover:underline"
+                        to='/auth/register'>
+                        Register
+                    </Link>
+                </p>
             </div>
             <CommonForm
-              formControls={loginFormControls}
-              buttonText={'Sign In'}
-              formData={formData}
-              setFormData={setFormData}
-              onSubmit={onSubmit}
+                formControls={loginFormControls}
+                buttonText={'Sign In'}
+                formData={formData}
+                setFormData={setFormData}
+                onSubmit={onSubmit}
             />
         </div>
+
     )
 }
+
 
 export default AuthLogin

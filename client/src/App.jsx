@@ -16,6 +16,7 @@
 import CheckAuth from "./components/common/check-auth";
 import AdminLayout from "./components/admin-view/layout";
 import UnauthPage from "./pages/unauth-page";
+import { Toaster } from "@/components/ui/sonner";
 
   function App() {
 
@@ -66,6 +67,9 @@ import UnauthPage from "./pages/unauth-page";
         <Route path="*" element={<NotFound/>} />
 
       </Routes>
+
+      <Toaster />
+
 
       </div>
     );
