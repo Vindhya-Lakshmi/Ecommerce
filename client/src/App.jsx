@@ -17,11 +17,12 @@ import CheckAuth from "./components/common/check-auth";
 import AdminLayout from "./components/admin-view/layout";
 import UnauthPage from "./pages/unauth-page";
 import { Toaster } from "@/components/ui/sonner";
+import { useSelector } from "react-redux";
 
   function App() {
 
-    const isAuthenticated = false;
-    const user = null
+
+    const {user, isAuthenticated} = useSelector(state=> state.auth)
 
     return (
       <div className="flex flex-col overflow-hidden bg-white">

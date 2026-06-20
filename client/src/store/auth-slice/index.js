@@ -27,6 +27,24 @@ export const registerUser = createAsyncThunk('/auth/register',
 );
 
 
+export const loginUser = createAsyncThunk('/auth/login',
+    async(formData) => {
+        try {
+        const response = await axios.post('http://localhost:5000/api/auth/login', formData, {
+            withCredentials : true
+        });
+        return response.data
+    }
+    catch (error) {
+      console.log("AXIOS ERROR:", error.response?.data);
+      throw error;
+    }
+   }
+  
+);
+
+
+
 
 const authSlice = createSlice({
     name: 'auth',
@@ -37,13 +55,27 @@ const authSlice = createSlice({
         },
     },
     extraReducers: (builder)=> {
-        builder.addCase(registerUser.pending, (state)=> {
+        builder
+        .addCase(registerUser.pending, (state)=> {
             state.isloading = true
         }).addCase(registerUser.fulfilled, (state, action)=> {
             state.isloading = false;
             state.user = null;
             state.isAuthenticated = false
         }).addCase(registerUser.rejected, (state, action)=> {
+            state.isloading = false;
+            state.user = null;
+            state.isAuthenticated = false
+        })
+
+
+         .addCase(loginUser.pending, (state)=> {
+            state.isloading = true
+        }).addCase(loginUser.fulfilled, (state, action)=> {
+            state.isloading = false;
+            state.user = !action.payload.success ?  action.payload.user : null;
+            state.isAuthenticated = action.payload.success ;
+        }).addCase(loginUser.rejected, (state, action)=> {
             state.isloading = false;
             state.user = null;
             state.isAuthenticated = false
