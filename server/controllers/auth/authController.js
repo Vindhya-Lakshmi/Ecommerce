@@ -66,7 +66,7 @@ const loginUser = async (req, res) => {
 
         const token = jwt.sign({
             id : checkUser._id, role : checkUser.role, email : checkUser.email
-        }, 'CLIENT_SECRET_KEY', {expiresIn : '60m'})
+        }, 'CLIENT_SECRET_KEY', {expiresIn : '5m'})
 
         res.cookie('token', token, {httpOnly: true, secure : false}).json({
             success : true,
