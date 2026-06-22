@@ -20,6 +20,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
+import { Skeleton } from "@/components/ui/skeleton"
 
   function App() {
 
@@ -32,7 +33,7 @@ import { checkAuth } from "./store/auth-slice";
 
     }, [dispatch]);
 
-    if(isLoading) return <div>Loading...</div>
+    if(isLoading) return <Skeleton className="h-[600px] w-[600px] rounded-full" />
 
     console.log(isLoading, user);
     
