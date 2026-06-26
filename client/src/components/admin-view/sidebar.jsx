@@ -6,23 +6,31 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
 
 
 
-function MenuItems() {
+function MenuItems({setOpen}) {
       console.log(adminSidebarMenuItems);
 
 
     const navigate = useNavigate()
 
 
-    return <nav className="mt-8 flex-col flex gap-2">
+    return(
+     <nav className="mt-8 flex-col flex gap-2">
         {
             adminSidebarMenuItems.map(menuItems => (
-                <div key={menuItems.id} onClick={() => navigate(menuItems.path)} className="flex items-center gap-2 rounded-md px-3 py-2">
+                <div key={menuItems.id} 
+                onClick={() => {                  
+                     navigate(menuItems.path)
+                    setOpen ?  setOpen(false) : null; 
+            
+}}
+                className="flex items-center gap-2 rounded-md px-3 py-2">
                     {menuItems.icons}
                     <span>{menuItems.label}</span>
 
                 </div>))
         }
     </nav>
+    )
 }
 
 function AdminSidebar({ open, setOpen }) {
@@ -35,15 +43,15 @@ function AdminSidebar({ open, setOpen }) {
     <Fragment>
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetContent side="left" className="w-64">
-                <div className="flex flex-col h-full">
+                <div className="flex flex-col h-full ">
                     <SheetHeader className="border-b">
-                        <SheetTitle>
+                        <SheetTitle className="flex gap-2 mt-5 mb-5">
                             <User size={30} />
-                            Admin Panel
+                <h1 className="text-xl font-extrabold">Admin Panel</h1>
                         </SheetTitle>
 
                     </SheetHeader>
-                    <MenuItems/>
+                    <MenuItems setOpen={setOpen}/>
                 </div>
             </SheetContent>
 
