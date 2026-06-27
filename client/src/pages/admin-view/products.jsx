@@ -1,3 +1,4 @@
+import ProductImageUpload from "@/components/admin-view/image-upload"
 import CommonForm from "@/components/common/form"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
@@ -22,6 +23,8 @@ function AdminProducts() {
 
     const [openCreateProductsDialog, setOpenCreateProductsDialog] = useState(false)
     const [formData, setFormData] = useState(initialFormData);
+    const [imageFile, setImageFile] = useState(null)
+    const [uploadedImageUrl, setUploadedImageUrl] = useState('')
 
     function onSubmit() {
 
@@ -35,24 +38,30 @@ function AdminProducts() {
                 }}
                 >
                     Add New Product
-                    </Button>
+                </Button>
             </div>
             <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4"></div>
-            <Sheet open={openCreateProductsDialog} 
-            
+            <Sheet open={openCreateProductsDialog}
+
                 onOpenChange={setOpenCreateProductsDialog}
             >
                 <SheetContent side="right" className="w-full sm:max-w-lg overflow-auto">
                     <SheetHeader className="border-b pb-4">
                         <SheetTitle className="text-xl">Add New Product</SheetTitle>
                     </SheetHeader>
+                    <ProductImageUpload 
+                    imageFile={imageFile}
+                    setImageFile={setImageFile}
+                    uploadedImageUrl={uploadedImageUrl} 
+                    setUploadedImageUrl={setUploadedImageUrl}
+                     />
                     <div className="px-4 py-6">
-                        <CommonForm 
-                        onSubmit={onSubmit} 
-                        formData={formData} 
-                        setFormData={setFormData} 
-                        buttonText='Add'
-                        formControls={addProductFormElements}
+                        <CommonForm
+                            onSubmit={onSubmit}
+                            formData={formData}
+                            setFormData={setFormData}
+                            buttonText='Add'
+                            formControls={addProductFormElements}
                         />
                     </div>
                 </SheetContent>
