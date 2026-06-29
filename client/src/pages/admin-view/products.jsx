@@ -28,7 +28,7 @@ function AdminProducts() {
     const [imageLoadingState, setImageLoadingState] = useState(false)
 
     function onSubmit() {
-
+    console.log(formData, "formData")
     }
 
     return (
