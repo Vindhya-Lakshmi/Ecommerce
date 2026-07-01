@@ -55,7 +55,9 @@ function AdminProducts() {
                     setImageFile={setImageFile}
                     uploadedImageUrl={uploadedImageUrl} 
                     setUploadedImageUrl={setUploadedImageUrl}
-                    imageLoadingState= {setImageLoadingState}
+                    setImageLoadingState={setImageLoadingState}
+                    imageLoadingState= {imageLoadingState}
+                    
                      />
                     <div className="px-4 py-6">
                         <CommonForm

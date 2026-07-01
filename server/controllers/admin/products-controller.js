@@ -5,22 +5,23 @@ const handleImageUpload = async (req, res) => {
   try {
     const base64 = Buffer.from(req.file.buffer).toString("base64");
 
-    const url = "data:" + req.file.mimetype + "base64," + base64;
+    const url = `data:${req.file.mimetype};base64,${base64}`;
 
     const result = await imageUploadUtil(url);
 
     res.status(200).json({
       success: true,
-      result: uploadResult,
+      result,
     });
   } catch (error) {
-    console.error(error);
+  console.error("UPLOAD ERROR:", error);
 
-    res.status(500).json({
-      success: false,
-      message: "Error occurred while uploading image",
-    });
-  }
+  res.status(500).json({
+    success: false,
+    message: error.message,
+    error,
+  });
+}
 };
 
 //add a new product 
@@ -33,7 +34,7 @@ const addProduct = async (req, res) => {
       brand,
       price,
       salePrice,
-      toatalStock } = req.body
+      totalStock } = req.body
 
       const newlyCreatedProduct = new Product({
       image,
@@ -43,7 +44,7 @@ const addProduct = async (req, res) => {
       brand,
       price,
       salePrice,
-      toatalStock,
+      totalStock,
       })
 
       await newlyCreatedProduct.save()
@@ -90,7 +91,7 @@ const editProducts = async (req, res) => {
       brand,
       price,
       salePrice,
-      toatalStock } = req.body
+      totalStock } = req.body
 
       const findProduct = await Product.findById(id);
       if(!findProduct)
@@ -105,7 +106,7 @@ const editProducts = async (req, res) => {
       findProduct.brand = title || findProduct.brand
       findProduct.price = title || findProduct.price
       findProduct.salePrice = title || findProduct.salePrice
-      findProduct.toatalStock = title || findProduct.toatalStock
+      findProduct.totalStock = title || findProduct.totalStock
       findProduct.image = title || findProduct.image
 
       await findProduct.save();
@@ -128,7 +129,7 @@ const deleteProducts = async (req, res) => {
   try {
 
     const {id} = req.params
-    const product = await Product.findByIdAndUpdate(id);
+    const product = await Product.findByIdAndDelete(id);
 
     if(!product)
       return res.status(404).json({
