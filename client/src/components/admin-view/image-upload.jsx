@@ -50,6 +50,7 @@ function ProductImageUpload(
         const data = new FormData();
         data.append('my_file', imageFile)
         const response = await axios.post('http://localhost:5000/api/admin/products/upload-image', data)
+        console.log(response.data);
         console.log(response, 'response');
         if (response?.data?.success){
 
@@ -62,6 +63,7 @@ function ProductImageUpload(
     useEffect(() => {
         if (imageFile !== null) uploadImageToCloudinary()
     }, [imageFile])
+console.log("uploadedImageUrl:", uploadedImageUrl);
 
     return (
         <div className="w-full max-w-md mx-auto mt-4">

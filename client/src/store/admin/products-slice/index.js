@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
@@ -8,14 +9,22 @@ const initialState = {
 export const addNewProduct = createAsyncThunk(
     '/products/addnewproduct',
     async (formData) => {
+        try {
         const result = await axios.post('http://localhost:5000/api/admin/products/add',formData,
             {
             headers : {
                 'Content-Type' : 'application/json'
-            }
+            },
+        
         })
+        console.log("API Response:", result.data);
+
         return result?.data;
+    }catch (error) {
+       console.log("API Error:", error.response?.data);
+      throw error;       
     }
+}
 );
 
 export const fetchAllProducts = createAsyncThunk(
@@ -30,7 +39,7 @@ export const fetchAllProducts = createAsyncThunk(
 
 export const editProducts = createAsyncThunk(
     '/products/editProducts',
-    async (id, formData) => {
+    async ({id, formData}) => {
         const result = await axios.put(
             `http://localhost:5000/api/admin/products/edit/${id}`,
             formData,

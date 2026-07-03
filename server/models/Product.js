@@ -7,7 +7,9 @@ const ProductSchema = new mongoose.Schema({
     category : String,
     brand : String,
     price : Number,
-    salePrice : Number
+    salePrice : Number,
+    totalStock : Number,
+    averageReview: Number, 
 }, {timestamps : true})
 
 module.exports = mongoose.model('Product',ProductSchema)

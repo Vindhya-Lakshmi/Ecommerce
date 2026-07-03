@@ -27,16 +27,9 @@ const handleImageUpload = async (req, res) => {
 //add a new product 
 const addProduct = async (req, res) => {
   try {
-    const { image,
-      title,
-      description,
-      category,
-      brand,
-      price,
-      salePrice,
-      totalStock } = req.body
+    console.log("BODY:", req.body);
 
-      const newlyCreatedProduct = new Product({
+    const {
       image,
       title,
       description,
@@ -45,22 +38,33 @@ const addProduct = async (req, res) => {
       price,
       salePrice,
       totalStock,
-      })
+    } = req.body;
 
-      await newlyCreatedProduct.save()
-      res.status(201).json({
-        success: true,
-        data : newlyCreatedProduct
-      })
+    const newlyCreatedProduct = new Product({
+      image,
+      title,
+      description,
+      category,
+      brand,
+      price,
+      salePrice,
+      totalStock,
+    });
 
+    await newlyCreatedProduct.save();
+
+    res.status(201).json({
+      success: true,
+      data: newlyCreatedProduct,
+    });
   } catch (e) {
     console.log(e);
     res.status(500).json({
       success: false,
-      message: "Error occured"
-    })
+      message: "Error occured",
+    });
   }
-}
+};
 
 //fetch all products
 const fetchAllProducts = async (req, res) => {
