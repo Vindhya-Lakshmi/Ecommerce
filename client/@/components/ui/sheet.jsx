@@ -85,8 +85,9 @@ function SheetHeader({
   return (
     <div
       data-slot="sheet-header"
-      className={cn("flex flex-col gap-0.5 p-4", className)}
-      {...props} />
+      className={cn("flex flex-col  items-start text-left  px-6 pt-6 pb-2", className)}
+      {...props}
+    />
   );
 }
 
@@ -109,7 +110,7 @@ function SheetTitle({
   return (
     <SheetPrimitive.Title
       data-slot="sheet-title"
-      className={cn("font-heading text-base font-medium text-foreground", className)}
+      className={cn("text-xl font-semibold text-gray-800 w-full text-left", className)}
       {...props} />
   );
 }

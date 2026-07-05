@@ -66,8 +66,8 @@ function ProductImageUpload(
 console.log("uploadedImageUrl:", uploadedImageUrl);
 
     return (
-        <div className="w-full max-w-md mx-auto mt-4">
-            <Label className="text-lg font-semibold mb-2 block">Upload Image</Label>
+        <div className="w-full ">
+            <Label className="text-lg font-semibold mb-1 block">Upload Image</Label>
             <div onDragOver={handleDragOver} onDrop={handleDrop} className="border-2 border-dashed rounded-lg p-4">
                 <Input id="image-upload"
                     type="file"

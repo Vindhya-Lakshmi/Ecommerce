@@ -14,14 +14,14 @@ const handleImageUpload = async (req, res) => {
       result,
     });
   } catch (error) {
-  console.error("UPLOAD ERROR:", error);
+    console.error("UPLOAD ERROR:", error);
 
-  res.status(500).json({
-    success: false,
-    message: error.message,
-    error,
-  });
-}
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error,
+    });
+  }
 };
 
 //add a new product 
@@ -71,8 +71,8 @@ const fetchAllProducts = async (req, res) => {
   try {
     const listOfProducts = await Product.find({});
     res.status(200).json({
-      success : true,
-      data : listOfProducts
+      success: true,
+      data: listOfProducts
     })
 
   } catch (e) {
@@ -87,7 +87,7 @@ const fetchAllProducts = async (req, res) => {
 //edit a product
 const editProducts = async (req, res) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
     const { image,
       title,
       description,
@@ -97,52 +97,55 @@ const editProducts = async (req, res) => {
       salePrice,
       totalStock } = req.body
 
-      const findProduct = await Product.findById(id);
-      if(!findProduct)
-        return res.status(404).json({
-      success : false,
-      message : "Product not found",
+    let findProduct = await Product.findById(id);
+    if (!findProduct)
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
       });
 
-      findProduct.title = title || findProduct.title
-      findProduct.description = title || findProduct.description
-      findProduct.category = title || findProduct.category
-      findProduct.brand = title || findProduct.brand
-      findProduct.price = title || findProduct.price
-      findProduct.salePrice = title || findProduct.salePrice
-      findProduct.totalStock = title || findProduct.totalStock
-      findProduct.image = title || findProduct.image
+    findProduct.title = title ?? findProduct.title;
+    findProduct.description = description ?? findProduct.description;
+    findProduct.category = category ?? findProduct.category;
+    findProduct.brand = brand ?? findProduct.brand;
+    findProduct.price = price === '' ? 0 : price || findProduct.price;
+    findProduct.salePrice = salePrice ?? findProduct.salePrice;
+    findProduct.totalStock = totalStock ?? findProduct.totalStock;
+    findProduct.image = image ?? findProduct.image;
+    console.log(req.body);
 
-      await findProduct.save();
-      res.status(200).json({
-        success : true,
-        data : findProduct,
-      });
+    await findProduct.save();
+    res.status(200).json({
+      success: true,
+      data: findProduct,
+    });
 
   } catch (e) {
-    console.log(e);
-    res.status(500).json({
-      success: false,
-      message: "Error occured"
-    })
-  }
+  console.error(e);
+
+  res.status(500).json({
+    success: false,
+    message: e.message,
+    error: e,
+  });
+}
 }
 
 //delete a product
 const deleteProducts = async (req, res) => {
   try {
 
-    const {id} = req.params
+    const { id } = req.params
     const product = await Product.findByIdAndDelete(id);
 
-    if(!product)
+    if (!product)
       return res.status(404).json({
-    success : false,
-    message : "Product not found",
-    })
+        success: false,
+        message: "Product not found",
+      })
     res.status(200).json({
-      success : true,
-      message : "Product delete successfully",
+      success: true,
+      message: "Product delete successfully",
     })
 
   } catch (e) {
