@@ -1,13 +1,26 @@
 import ProductFilter from "@/components/shopping-view/filter"
-import { DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { ArrowUpDown } from "lucide-react"
+import { DropdownMenuContent, 
+    DropdownMenuRadioGroup, 
+    DropdownMenuRadioItem,
+    DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { sortOptions } from "@/config"
+import { fetchAllProducts } from "@/store/admin/products-slice"
+import { ArrowUpDownIcon } from "lucide-react"
 import { DropdownMenu } from "radix-ui"
+import { useEffect } from "react"
+import { useDispatch } from "react-redux"
 
 
 
 
 function ShoppingListing() {
-    return
+
+const dispatch = useDispatch()
+//fetch listing of products
+
+
+
+    return(
     <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6">
         <ProductFilter />
         <div className="bg-background w-full rounded-lg shadow-sm">
@@ -18,7 +31,7 @@ function ShoppingListing() {
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" size="sm" className="flex items-center gap-1">
-                                <ArrowUpDown className="h-4 w-4" />
+                                <ArrowUpDownIcon className="h-4 w-4" />
                                 <span>Sort by</span>
                             </Button>
                         </DropdownMenuTrigger>
@@ -39,7 +52,7 @@ function ShoppingListing() {
             </div>
         </div>
     </div>
-
+    )
 }
 
 export default ShoppingListing

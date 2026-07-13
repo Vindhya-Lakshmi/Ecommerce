@@ -2,7 +2,7 @@ import { adminSidebarMenuItems } from "@/config";
 import {  User } from "lucide-react";
 import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
 
 

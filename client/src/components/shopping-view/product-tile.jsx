@@ -37,6 +37,9 @@ function ShoppingProductTile({ product }) {
                         ) : null}
                     </div>
                 </CardContent>
+                <CardFooter>
+                    <Button className="w-full">Add to cart</Button>
+                </CardFooter>
             </div>
         </Card>
     )

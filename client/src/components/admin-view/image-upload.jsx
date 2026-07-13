@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
 import { Label } from "../ui/label";
 import { FileIcon, UploadCloud, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
