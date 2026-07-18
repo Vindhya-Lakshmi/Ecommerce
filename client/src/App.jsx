@@ -35,8 +35,11 @@ import { Skeleton } from "@/components/ui/skeleton"
 
     if(isLoading) return <Skeleton className="h-[600px] w-[600px] rounded-full" />
 
-    console.log(isLoading, user);
-    
+console.log({
+  isLoading,
+  isAuthenticated,
+  user,
+});    
 
     return (
       <div className="flex flex-col overflow-hidden bg-white">
@@ -67,9 +70,9 @@ import { Skeleton } from "@/components/ui/skeleton"
 
         <Route>
           <Route path="/shop" element={
-            <CheckAuth  isAuthenticated={isAuthenticated} user={user} >
+            // <CheckAuth  isAuthenticated={isAuthenticated} user={user} >
               <ShoppingLayout/>
-            </CheckAuth>
+            // {/* </CheckAuth> */}
           }>
             <Route path="home" element={<ShoppingHome/>}/>
             <Route path="checkout" element={<ShoppingCheckout/>}/>

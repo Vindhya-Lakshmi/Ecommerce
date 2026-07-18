@@ -1,5 +1,7 @@
+import { brandOptionsMap, categoryOptionsMap } from "@/config";
 import { Badge } from "../ui/badge";
-import { Card, CardContent } from "../ui/card";
+import { Button } from "../ui/button";
+import { Card, CardContent, CardFooter } from "../ui/card";
 
 
 
@@ -49,3 +51,4 @@ function ShoppingProductTile({ product }) {
         </Card>
     )
 }
+export default ShoppingProductTile;
