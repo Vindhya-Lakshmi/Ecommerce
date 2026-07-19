@@ -34,18 +34,30 @@ function handleFilter(getSectionId,getCurrentOption){
         cpyFilters = {
             ...cpyFilters,
             [getSectionId]: [getCurrentOption]
-        }
+        };
+    } else {
+        const indexOfCurrentOption = cpyFilters[getSectionId].indexOf(getCurrentOption)
+
+        if(indexOfCurrentOption === -1) cpyFilters[getSectionId].push(getCurrentOption)
+            else cpyFilters[getSectionId].splice(indexOfCurrentOption , 1)
     }
+    setFilters(cpyFilters)
+    sessionStorage.setItem('filters', JSON.stringify(cpyFilters))
 }
+
+useEffect(()=> {
+ setSort("price-low-to-high")
+ setFilters(JSON.parse(sessionStorage.getItem('filters')) || {})
+},[])
 
 useEffect(() => {
     dispatch(fetchAllFilteredProducts())
 }, [dispatch])
 
-console.log(productList,"productList")
+console.log(filters,"filters")
 
     return(
-    <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6">
+    <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
         <ProductFilter filters={filters} handleFilter={handleFilter}/>
         <div className="bg-background w-full rounded-lg shadow-sm">
             <div className="p-4 border-b flex items-center justify-between">
