@@ -11,7 +11,6 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import { useSearchParams } from "react-router-dom";
-import { URLSearchParams } from "node:url";
 
 
 function createSearchParamsHelper(filterParams){
@@ -68,11 +67,12 @@ useEffect(() => {
         const createQueryString = createSearchParamsHelper(filters)
         setSearchParams(new URLSearchParams(createQueryString))
     }
-},[filters])
+},[filters, setSearchParams])
 
 useEffect(() => {
-    dispatch(fetchAllFilteredProducts())
-}, [dispatch])
+    if(filters !== null && sort !== null)
+    dispatch(fetchAllFilteredProducts({filterParams : filters, sortParams : sort}))
+}, [dispatch,sort, filters])
 
 console.log(filters,searchParams,"filters")
 
