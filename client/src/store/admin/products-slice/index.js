@@ -37,7 +37,7 @@ export const fetchAllProducts = createAsyncThunk(
         })
 
         const result = await axios.get
-        (`http://localhost:5000/api/shop/products/get?${query}`,
+        (`http://localhost:5000/api/admin/products/get?${query}`,
         )
         return result?.data;
     }
