@@ -11,6 +11,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import { useSearchParams } from "react-router-dom";
+import ProductDetailsDialog from "@/components/shopping-view/product-detail";
 
 
 function createSearchParamsHelper(filterParams){
@@ -31,6 +32,7 @@ const {productList, productDetails} = useSelector(state=> state.shopProducts)
 const [filters, setFilters] = useState({});
 const [sort, setSort] = useState(null);
 const [searchParams, setSearchParams] = useSearchParams()
+const [openDetailsDialog, setOpenDetailsDialog] = useState(false)
 
 function handleSort(value) {
     setSort(value)
@@ -79,12 +81,17 @@ useEffect(() => {
     dispatch(fetchAllFilteredProducts({filterParams : filters, sortParams : sort}))
 }, [dispatch,sort, filters])
 
+useEffect(()=> {
+    if(productDetails !== null) setOpenDetailsDialog(true)
+},[productDetails])
+
 console.log(productDetails,"productDetails")
 
     return(
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
         <ProductFilter filters={filters} handleFilter={handleFilter}/>
         <div className="bg-background w-full rounded-lg shadow-sm">
+
             <div className="p-4 border-b flex items-center justify-between">
                 <h2 className="text-lg font-extrabold ">All Products</h2>
                 <div className="flex items-center gap-3">
@@ -117,7 +124,9 @@ console.log(productDetails,"productDetails")
                                  <ShoppingProductTile handleGetProductDetails={handleGetProductDetails} key={productItem.id} product={productItem} />)  : null  
                             }
             </div>
+       
         </div>
+        <ProductDetailsDialog open={openDetailsDialog} setOpen={setOpenDetailsDialog} productDetails={productDetails}/>
     </div>
     )
 }
