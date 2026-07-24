@@ -64,6 +64,10 @@ function handleGetProductDetails(getCurrentProductId){
     dispatch(fetchProductDetails(getCurrentProductId))
 }
 
+function handleAddtoCart(getCurrentProductId){
+    console.log(getCurrentProductId)
+}
+
 useEffect(()=> {
  setSort("price-low-to-high")
  setFilters(JSON.parse(sessionStorage.getItem('filters')) || {})
@@ -85,7 +89,6 @@ useEffect(()=> {
     if(productDetails !== null) setOpenDetailsDialog(true)
 },[productDetails])
 
-console.log(productDetails,"productDetails")
 
     return(
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
@@ -121,7 +124,12 @@ console.log(productDetails,"productDetails")
                             {
                              productList && productList.length > 0 ?
                              productList.map(productItem=>
-                                 <ShoppingProductTile handleGetProductDetails={handleGetProductDetails} key={productItem.id} product={productItem} />)  : null  
+                                 <ShoppingProductTile 
+                                 handleGetProductDetails={handleGetProductDetails} key={productItem.id} 
+                                 product={productItem}
+                                 handleAddtoCart={handleAddtoCart}
+                                  />)
+                                    : null  
                             }
             </div>
        
