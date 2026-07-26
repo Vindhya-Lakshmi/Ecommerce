@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux"
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import { useSearchParams } from "react-router-dom";
 import ProductDetailsDialog from "@/components/shopping-view/product-detail";
+import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 
 
 function createSearchParamsHelper(filterParams){
@@ -27,6 +28,8 @@ function createSearchParamsHelper(filterParams){
 
 function ShoppingListing() {
 
+const {user} = useSelector(state=>state.auth)
+const {cartItems} = useSelector(state=>state.shopCart)
 const dispatch = useDispatch()
 const {productList, productDetails} = useSelector(state=> state.shopProducts)
 const [filters, setFilters] = useState({});
@@ -65,7 +68,16 @@ function handleGetProductDetails(getCurrentProductId){
 }
 
 function handleAddtoCart(getCurrentProductId){
-    console.log(getCurrentProductId)
+    dispatch(
+        addToCart({
+        userId : user?.id, 
+        productId:getCurrentProductId,
+         quantity: 1,})
+        ).then((data) => {
+            if(data?.payload?.success){
+                dispatch(fetchCartItems(user?.id));
+            }
+      })
 }
 
 useEffect(()=> {
@@ -89,6 +101,7 @@ useEffect(()=> {
     if(productDetails !== null) setOpenDetailsDialog(true)
 },[productDetails])
 
+console.log(cartItems,"cartItems")
 
     return(
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">

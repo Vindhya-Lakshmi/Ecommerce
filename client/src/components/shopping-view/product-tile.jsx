@@ -6,13 +6,13 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 
 
 
-function ShoppingProductTile({ 
+function ShoppingProductTile({
     product,
-     handleGetProductDetails,
-      handleAddtoCart,}) {
+    handleGetProductDetails,
+    handleAddtoCart, }) {
     return (
         <Card className="w-full max-w-sm mx-auto">
-            <div onClick={()=>handleGetProductDetails(product?._id)}>
+            <div onClick={() => handleGetProductDetails(product?._id)}>
                 <div className="relative">
                     <img
                         src={product?.image}
@@ -20,11 +20,11 @@ function ShoppingProductTile({
                         className="w-full h-[300px] object-cover rounded-t-lg"
                     />
                     {
-                        product?.salePrice > 0 ?(
+                        product?.salePrice > 0 ? (
 
-                         <Badge className="absolute top-2 left-2 bg-red-500 hover:bg-red-600">
-                            Sale
-                         </Badge> ) : null
+                            <Badge className="absolute top-2 left-2 bg-red-500 hover:bg-red-600">
+                                Sale
+                            </Badge>) : null
                     }
                 </div>
                 <CardContent className="p-4">
@@ -47,10 +47,11 @@ function ShoppingProductTile({
                         ) : null}
                     </div>
                 </CardContent>
-                <CardFooter>
-                    <Button onClick={()=>handleAddtoCart(product?._id)} className="w-full">Add to cart</Button>
-                </CardFooter>
+
             </div>
+            <CardFooter>
+                <Button onClick={() => handleAddtoCart(product?._id)} className="w-full">Add to cart</Button>
+            </CardFooter>
         </Card>
     )
 }
