@@ -43,7 +43,7 @@ function AdminProducts() {
 
   const { productList } = useSelector((state) => state.adminProducts);
   const dispatch = useDispatch();
-  //   const { toast } = useToast();
+    const { toast } = useToast();
 
   function onSubmit(event) {
     event.preventDefault();

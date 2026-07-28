@@ -6,8 +6,8 @@ import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
-import { useToast } from "../ui/use-toast";
-import { setProductDetails } from "@/store/shop/products-slice";
+import { toast } from "sonner";
+import { setProductDetails } from "@/store/shop/product-slice";
 import { Label } from "../ui/label";
 import StarRatingComponent from "../common/star-rating";
 import { useEffect, useState } from "react";
@@ -21,7 +21,6 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
   const { cartItems } = useSelector((state) => state.shopCart);
   const { reviews } = useSelector((state) => state.shopReview);
 
-  const { toast } = useToast();
 
   function handleRatingChange(getRating) {
     console.log(getRating, "getRating");
@@ -57,9 +56,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
     ).then((data) => {
       if (data?.payload?.success) {
         dispatch(fetchCartItems(user?.id));
-        toast({
-          title: "Product is added to cart",
-        });
+        toast.success("Product is added to cart");
       }
     });
   }
@@ -85,9 +82,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
         setRating(0);
         setReviewMsg("");
         dispatch(getReviews(productDetails?._id));
-        toast({
-          title: "Review added successfully!",
-        });
+       toast.success("Review added successfully!");
       }
     });
   }
@@ -103,6 +98,11 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
       ? reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) /
         reviews.length
       : 0;
+
+      function handleDialogClose(){
+        setOpen(false)
+        dispatch(setProductDetails())
+      }
 
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>

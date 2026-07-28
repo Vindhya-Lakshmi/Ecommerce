@@ -5,7 +5,7 @@ import { DropdownMenu, DropdownMenuContent,
     DropdownMenuRadioItem,
     DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { sortOptions } from "@/config"
-import { fetchAllFilteredProducts, fetchProductDetails } from "@/store/shop/products-slice";
+import { fetchAllFilteredProducts, fetchProductDetails } from "@/store/shop/product-slice";
 import { ArrowUpDownIcon } from "lucide-react";
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -13,7 +13,7 @@ import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import { useSearchParams } from "react-router-dom";
 import ProductDetailsDialog from "@/components/shopping-view/product-detail";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
-
+import { toast } from "sonner";
 
 function createSearchParamsHelper(filterParams){
     const queryParams = [];
@@ -29,7 +29,6 @@ function createSearchParamsHelper(filterParams){
 function ShoppingListing() {
 
 const {user} = useSelector(state=>state.auth)
-const {cartItems} = useSelector(state=>state.shopCart)
 const dispatch = useDispatch()
 const {productList, productDetails} = useSelector(state=> state.shopProducts)
 const [filters, setFilters] = useState({});
@@ -76,7 +75,11 @@ function handleAddtoCart(getCurrentProductId){
         ).then((data) => {
             if(data?.payload?.success){
                 dispatch(fetchCartItems(user?.id));
-            }
+                toast.success("Product added to cart");
+
+ } else {
+      toast.error("Something went wrong");
+    }
       })
 }
 
@@ -101,7 +104,6 @@ useEffect(()=> {
     if(productDetails !== null) setOpenDetailsDialog(true)
 },[productDetails])
 
-console.log(cartItems,"cartItems")
 
     return(
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
@@ -147,7 +149,9 @@ console.log(cartItems,"cartItems")
             </div>
        
         </div>
-        <ProductDetailsDialog open={openDetailsDialog} setOpen={setOpenDetailsDialog} productDetails={productDetails}/>
+        <ProductDetailsDialog open={openDetailsDialog} 
+        setOpen={setOpenDetailsDialog} 
+        productDetails={productDetails}/>
     </div>
     )
 }
