@@ -28,19 +28,14 @@ export const addNewProduct = createAsyncThunk(
 );
 
 export const fetchAllProducts = createAsyncThunk(
-    '/products/fetchAllProducts',
-    async ({filterParams, sortParams}) => {
+  "/products/fetchAllProducts",
+  async () => {
+    const result = await axios.get(
+      "http://localhost:5000/api/admin/products/get"
+    );
 
-        const query = new URLSearchParams({
-            ...filterParams,
-            sortBy : sortParams 
-        })
-
-        const result = await axios.get
-        (`http://localhost:5000/api/admin/products/get?${query}`,
-        )
-        return result?.data;
-    }
+    return result.data;
+  }
 );
 
 export const editProducts = createAsyncThunk(

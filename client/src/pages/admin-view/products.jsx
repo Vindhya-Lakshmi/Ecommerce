@@ -11,7 +11,8 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { toast } from "sonner";
-import { addProductFormElements } from "@/config"; import {
+import { addProductFormElements } from "@/config"; 
+import {
   addNewProduct,
   deleteProducts,
   editProducts,
@@ -42,8 +43,8 @@ function AdminProducts() {
   const [currentEditedId, setCurrentEditedId] = useState(null);
 
   const { productList } = useSelector((state) => state.adminProducts);
+  console.log("Redux Product List:", productList);
   const dispatch = useDispatch();
-    const { toast } = useToast();
 
   function onSubmit(event) {
     event.preventDefault();

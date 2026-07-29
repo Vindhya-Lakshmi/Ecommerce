@@ -24,7 +24,6 @@ function AuthLogin() {
 
     const [formData, setFormData] = useState(initialState)
     const dispatch = useDispatch();
-    // const { toast } = useToast()
 
     function onSubmit(e) {
         e.preventDefault();

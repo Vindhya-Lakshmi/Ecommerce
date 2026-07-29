@@ -19,7 +19,6 @@ function AuthRegister() {
     const [formData, setFormData] = useState(initialState)
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    // const {toast} = useToast()
 
     function onSubmit(event) {
         event.preventDefault();
