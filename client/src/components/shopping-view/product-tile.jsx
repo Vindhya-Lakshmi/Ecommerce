@@ -10,15 +10,16 @@ function ShoppingProductTile({
     product,
     handleGetProductDetails,
     handleAddtoCart, }) {
+        console.log(product?.image);
     return (
         <Card className="w-full max-w-sm mx-auto">
             <div onClick={() => handleGetProductDetails(product?._id)}>
                 <div className="relative">
-                    <img
-                        src={product?.image}
-                        alt={product?.title}
-                        className="w-full h-[300px] object-cover rounded-t-lg"
-                    />
+                  <img
+  src={product?.image?.replace("http://", "https://")}
+  alt={product?.title}
+  className="w-full h-[300px] object-cover rounded-t-lg"
+/>
                     {
                         product?.salePrice > 0 ? (
 

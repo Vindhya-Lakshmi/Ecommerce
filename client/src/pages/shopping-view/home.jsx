@@ -29,7 +29,13 @@ import { useNavigate } from "react-router-dom";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { toast } from "sonner";
 import ProductDetailsDialog from "@/components/shopping-view/product-detail";
-import { getFeatureImages } from "@/store/common-slice";
+
+const featureImageList = [
+  { image: bannerOne },
+  { image: bannerTwo },
+  { image: bannerThree },
+];
+
 
 const categoriesWithIcon = [
   { id: "men", label: "Men", icon: ShirtIcon },
@@ -52,7 +58,6 @@ function ShoppingHome() {
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
   );
-  const { featureImageList } = useSelector((state) => state.commonFeature);
 
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
 
@@ -113,9 +118,7 @@ function ShoppingHome() {
 
   console.log(productList, "productList");
 
-  useEffect(() => {
-    dispatch(getFeatureImages());
-  }, [dispatch]);
+ 
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -164,13 +167,14 @@ function ShoppingHome() {
             Shop by category
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {categoriesWithIcon.map((categoryItem) => (
-              <Card
-                onClick={() =>
-                  handleNavigateToListingPage(categoryItem, "category")
-                }
-                className="cursor-pointer hover:shadow-lg transition-shadow"
-              >
+           {categoriesWithIcon.map((categoryItem) => (
+  <Card
+    key={categoryItem.id}
+    onClick={() =>
+      handleNavigateToListingPage(categoryItem, "category")
+    }
+    className="cursor-pointer hover:shadow-lg transition-shadow"
+  >
                 <CardContent className="flex flex-col items-center justify-center p-6">
                   <categoryItem.icon className="w-12 h-12 mb-4 text-primary" />
                   <span className="font-bold">{categoryItem.label}</span>
@@ -185,11 +189,12 @@ function ShoppingHome() {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">Shop by Brand</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {brandsWithIcon.map((brandItem) => (
-              <Card
-                onClick={() => handleNavigateToListingPage(brandItem, "brand")}
-                className="cursor-pointer hover:shadow-lg transition-shadow"
-              >
+           {brandsWithIcon.map((brandItem) => (
+  <Card
+    key={brandItem.id}
+    onClick={() => handleNavigateToListingPage(brandItem, "brand")}
+    className="cursor-pointer hover:shadow-lg transition-shadow"
+  >
                 <CardContent className="flex flex-col items-center justify-center p-6">
                   <brandItem.icon className="w-12 h-12 mb-4 text-primary" />
                   <span className="font-bold">{brandItem.label}</span>
@@ -206,15 +211,16 @@ function ShoppingHome() {
             Feature Products
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {productList && productList.length > 0
-              ? productList.map((productItem) => (
-                  <ShoppingProductTile
-                    handleGetProductDetails={handleGetProductDetails}
-                    product={productItem}
-                    handleAddtoCart={handleAddtoCart}
-                  />
-                ))
-              : null}
+           {productList && productList.length > 0
+  ? productList.map((productItem) => (
+      <ShoppingProductTile
+        key={productItem._id}
+        product={productItem}
+        handleGetProductDetails={handleGetProductDetails}
+        handleAddtoCart={handleAddtoCart}
+      />
+    ))
+  : null}
           </div>
         </div>
       </section>
