@@ -6,31 +6,30 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 
 
 
-function MenuItems({setOpen}) {
-      console.log(adminSidebarMenuItems);
+function MenuItems({ setOpen }) {
+  const navigate = useNavigate();
 
+  return (
+    <nav className="mt-8 flex flex-col gap-2">
+      {adminSidebarMenuItems.map((menuItem) => {
+        const Icon = menuItem.icon;
 
-    const navigate = useNavigate()
-
-
-    return(
-     <nav className="mt-8 flex-col flex gap-2">
-        {
-            adminSidebarMenuItems.map(menuItems => (
-                <div key={menuItems.id} 
-                onClick={() => {                  
-                     navigate(menuItems.path)
-                    setOpen ?  setOpen(false) : null; 
-            
-}}
-                className="flex items-center gap-2 rounded-md px-3 py-2">
-                    {menuItems.icons}
-                    <span>{menuItems.label}</span>
-
-                </div>))
-        }
+        return (
+          <div
+            key={menuItem.id}
+            onClick={() => {
+              navigate(menuItem.path);
+              if (setOpen) setOpen(false);
+            }}
+            className="flex items-center gap-2 rounded-md px-3 py-2 cursor-pointer hover:bg-muted"
+          >
+            <Icon className="h-5 w-5" />
+            <span>{menuItem.label}</span>
+          </div>
+        );
+      })}
     </nav>
-    )
+  );
 }
 
 function AdminSidebar({ open, setOpen }) {

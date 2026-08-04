@@ -40,6 +40,9 @@ const addProduct = async (req, res) => {
       totalStock,
     } = req.body;
 
+    console.log("Validation passed");
+
+
     const newlyCreatedProduct = new Product({
       image,
       title,
@@ -50,6 +53,9 @@ const addProduct = async (req, res) => {
       salePrice,
       totalStock,
     });
+
+console.log("New Address:", newlyCreatedAddress);
+
 
     await newlyCreatedProduct.save();
 

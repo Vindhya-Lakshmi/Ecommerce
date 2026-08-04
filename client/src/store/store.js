@@ -6,7 +6,7 @@ import shopCartSlice from "./shop/cart-slice";
 import shopAddressSlice from "./shop/address-slice";
 import shopReviewSlice from "./shop/review-slice";
 import commonFeatureSlice from "./common-slice";
-
+import shopOrderReducer from "./shop/order-slice";
 
 
 
@@ -19,6 +19,7 @@ const store = configureStore({
         shopAddress: shopAddressSlice,
         shopReview: shopReviewSlice,
         commonFeature: commonFeatureSlice,
+        shopOrder: shopOrderReducer,
     }, 
     
 });

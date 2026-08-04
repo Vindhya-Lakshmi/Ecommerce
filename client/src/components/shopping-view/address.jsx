@@ -30,6 +30,11 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
   function handleManageAddress(event) {
     event.preventDefault();
 
+     console.log({
+  ...formData,
+  userId: user?.id,
+});
+
     if (addressList.length >= 3 && currentEditedId === null) {
   setFormData(initialAddressFormData);
   toast.error("You can add a maximum of 3 addresses");
@@ -50,12 +55,16 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
             setFormData(initialAddressFormData);
             toast.success("Address updated successfully");
           }
+          
         })
+        
       : dispatch(
           addNewAddress({
             ...formData,
             userId: user?.id,
+            
           })
+          
         ).then((data) => {
           if (data?.payload?.success) {
             dispatch(fetchAllAddresses(user?.id));

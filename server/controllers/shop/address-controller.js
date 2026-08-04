@@ -2,6 +2,9 @@ const Address = require("../../models/Address");
 
 const addAddress = async (req, res) => {
   try {
+   console.log("=== addAddress called ===");
+    console.log("Request Body:", req.body);
+
     const { userId, address, city, pincode, phone, notes } = req.body;
 
     if (!userId || !address || !city || !pincode || !phone || !notes) {
@@ -113,6 +116,8 @@ const deleteAddress = async (req, res) => {
 
     const address = await Address.findOneAndDelete({ _id: addressId, userId });
 
+
+    
     if (!address) {
       return res.status(404).json({
         success: false,

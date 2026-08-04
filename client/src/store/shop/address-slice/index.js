@@ -9,10 +9,14 @@ const initialState = {
 export const addNewAddress = createAsyncThunk(
   "/addresses/addNewAddress",
   async (formData) => {
+    console.log("Thunk Data:", formData);
+
     const response = await axios.post(
       "http://localhost:5000/api/shop/address/add",
       formData
     );
+
+    console.log("Response:", response.data);
 
     return response.data;
   }
@@ -72,11 +76,13 @@ const addressSlice = createSlice({
       })
       .addCase(fetchAllAddresses.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.addressList = action.payload.data;
+          state.addressList = action.payload.data;
+
       })
       .addCase(fetchAllAddresses.rejected, (state) => {
         state.isLoading = false;
-        state.addressList = [];
+          state.addressList = [];
+
       });
   },
 });
