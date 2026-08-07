@@ -91,7 +91,7 @@ const fetchAllProducts = async (req, res) => {
 }
 
 //edit a product
-const editProducts = async (req, res) => {
+const editProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const { image,
@@ -138,7 +138,7 @@ const editProducts = async (req, res) => {
 }
 
 //delete a product
-const deleteProducts = async (req, res) => {
+const deleteProduct = async (req, res) => {
   try {
 
     const { id } = req.params
@@ -164,4 +164,4 @@ const deleteProducts = async (req, res) => {
 }
 
 
-module.exports = { handleImageUpload, addProduct, fetchAllProducts, editProducts, deleteProducts };
+module.exports = { handleImageUpload, addProduct, fetchAllProducts, editProduct, deleteProduct };

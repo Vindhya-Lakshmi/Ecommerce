@@ -14,8 +14,8 @@ import { toast } from "sonner";
 import { addProductFormElements } from "@/config"; 
 import {
   addNewProduct,
-  deleteProducts,
-  editProducts,
+  deleteProduct,
+  editProduct,
   fetchAllProducts,
 } from "@/store/admin/products-slice";
 import { Fragment, useEffect, useState } from "react";
@@ -51,7 +51,7 @@ function AdminProducts() {
 
     currentEditedId !== null
       ? dispatch(
-        editProducts({
+        editProduct({
           id: currentEditedId,
           formData,
         })
@@ -85,7 +85,7 @@ function AdminProducts() {
   }
 
   function handleDelete(getCurrentProductId) {
-    dispatch(deleteProducts(getCurrentProductId)).then((data) => {
+    dispatch(deleteProduct(getCurrentProductId)).then((data) => {
       if (data?.payload?.success) {
         dispatch(fetchAllProducts());
       }
