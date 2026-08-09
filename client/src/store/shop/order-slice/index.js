@@ -2,108 +2,151 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  approvalURL: null,
   isLoading: false,
   orderId: null,
   orderList: [],
   orderDetails: null,
 };
 
+// Create COD order
 export const createNewOrder = createAsyncThunk(
   "/order/createNewOrder",
-  async (orderData) => {
-    const response = await axios.post(
-      "http://localhost:5000/api/shop/order/create",
-      orderData
-    );
+  async (orderData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/shop/order/create",
+        orderData,
+        {
+          withCredentials: true,
+        }
+      );
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      console.log("CREATE ORDER ERROR:", error.response?.data);
+
+      return rejectWithValue(
+        error.response?.data || {
+          success: false,
+          message: "Failed to create order",
+        }
+      );
+    }
   }
 );
 
-export const capturePayment = createAsyncThunk(
-  "/order/capturePayment",
-  async ({ paymentId, payerId, orderId }) => {
-    const response = await axios.post(
-      "http://localhost:5000/api/shop/order/capture",
-      {
-        paymentId,
-        payerId,
-        orderId,
-      }
-    );
-
-    return response.data;
-  }
-);
-
+// Get all orders of current user
 export const getAllOrdersByUserId = createAsyncThunk(
   "/order/getAllOrdersByUserId",
-  async (userId) => {
-    const response = await axios.get(
-      `http://localhost:5000/api/shop/order/list/${userId}`
-    );
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/shop/order/list/${userId}`,
+        {
+          withCredentials: true,
+        }
+      );
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      console.log("GET ORDERS ERROR:", error.response?.data);
+
+      return rejectWithValue(
+        error.response?.data || {
+          success: false,
+          message: "Failed to get orders",
+        }
+      );
+    }
   }
 );
 
+// Get single order details
 export const getOrderDetails = createAsyncThunk(
   "/order/getOrderDetails",
-  async (id) => {
-    const response = await axios.get(
-      `http://localhost:5000/api/shop/order/details/${id}`
-    );
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/shop/order/details/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      console.log("GET ORDER DETAILS ERROR:", error.response?.data);
+
+      return rejectWithValue(
+        error.response?.data || {
+          success: false,
+          message: "Failed to get order details",
+        }
+      );
+    }
   }
 );
 
 const shoppingOrderSlice = createSlice({
   name: "shoppingOrderSlice",
+
   initialState,
+
   reducers: {
     resetOrderDetails: (state) => {
       state.orderDetails = null;
     },
   },
+
   extraReducers: (builder) => {
     builder
+
+      // CREATE ORDER
       .addCase(createNewOrder.pending, (state) => {
         state.isLoading = true;
       })
+
       .addCase(createNewOrder.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.approvalURL = action.payload.approvalURL;
-        state.orderId = action.payload.orderId;
-        sessionStorage.setItem(
-          "currentOrderId",
-          JSON.stringify(action.payload.orderId)
-        );
+
+        state.orderId = action.payload?.data?._id || null;
+
+        state.orderList = [
+          ...state.orderList,
+          action.payload?.data,
+        ];
       })
+
       .addCase(createNewOrder.rejected, (state) => {
         state.isLoading = false;
-        state.approvalURL = null;
         state.orderId = null;
       })
+
+      // GET ALL ORDERS
       .addCase(getAllOrdersByUserId.pending, (state) => {
         state.isLoading = true;
       })
+
       .addCase(getAllOrdersByUserId.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.orderList = action.payload.data;
+        state.orderList = action.payload?.data || [];
       })
+
       .addCase(getAllOrdersByUserId.rejected, (state) => {
         state.isLoading = false;
         state.orderList = [];
       })
+
+      // GET ORDER DETAILS
       .addCase(getOrderDetails.pending, (state) => {
         state.isLoading = true;
       })
+
       .addCase(getOrderDetails.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.orderDetails = action.payload.data;
+        state.orderDetails = action.payload?.data || null;
       })
+
       .addCase(getOrderDetails.rejected, (state) => {
         state.isLoading = false;
         state.orderDetails = null;

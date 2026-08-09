@@ -29,6 +29,10 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
   }
 
   function handleAddToCart(getCurrentProductId, getTotalStock) {
+      console.log("USER:", user);
+  console.log("USER ID:", user?.id);
+  console.log("PRODUCT ID:", getCurrentProductId);
+  console.log("STOCK:", getTotalStock);
     let getCartItems = cartItems.items || [];
 
     if (getCartItems.length) {
