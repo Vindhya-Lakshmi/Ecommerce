@@ -117,7 +117,7 @@ function ShoppingOrders() {
             ) : (
               <TableRow>
                 <TableCell colSpan={5} className="text-center">
-                  No orders found
+                  No orders found..
                 </TableCell>
               </TableRow>
             )}
