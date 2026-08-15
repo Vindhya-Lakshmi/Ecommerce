@@ -75,7 +75,17 @@ const adminOrderSlice = createSlice({
       .addCase(getOrderDetailsForAdmin.rejected, (state) => {
         state.isLoading = false;
         state.orderDetails = null;
-      });
+      })
+      .addCase(updateOrderStatus.pending, (state) => {
+  state.isLoading = true;
+})
+.addCase(updateOrderStatus.fulfilled, (state, action) => {
+  state.isLoading = false;
+  state.orderDetails = action.payload.data;
+})
+.addCase(updateOrderStatus.rejected, (state) => {
+  state.isLoading = false;
+})
   },
 });
 

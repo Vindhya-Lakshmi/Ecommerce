@@ -1,11 +1,27 @@
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import { DialogContent } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
+import { updateOrderStatus } from "@/store/admin/order-slice";
 
-function ShoppingOrderDetailsView({ orderDetails }) {
-  const { user } = useSelector((state) => state.auth);
+function AdminOrderDetailsView({ orderDetails }) {
+  const dispatch = useDispatch();
+
+  const [orderStatus, setOrderStatus] = useState(
+    orderDetails?.orderStatus || ""
+  );
+
+  function handleUpdateOrderStatus() {
+    dispatch(
+      updateOrderStatus({
+        id: orderDetails?._id,
+        orderStatus,
+      })
+    );
+  }
 
   return (
     <DialogContent className="sm:max-w-[600px]">
@@ -15,24 +31,30 @@ function ShoppingOrderDetailsView({ orderDetails }) {
             <p className="font-medium">Order ID</p>
             <Label>{orderDetails?._id}</Label>
           </div>
+
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Order Date</p>
-            <Label>{orderDetails?.orderDate.split("T")[0]}</Label>
+            <Label>{orderDetails?.orderDate?.split("T")[0]}</Label>
           </div>
+
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Order Price</p>
             <Label>${orderDetails?.totalAmount}</Label>
           </div>
+
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Payment method</p>
             <Label>{orderDetails?.paymentMethod}</Label>
           </div>
+
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Payment Status</p>
             <Label>{orderDetails?.paymentStatus}</Label>
           </div>
+
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Order Status</p>
+
             <Label>
               <Badge
                 className={`py-1 px-3 ${
@@ -48,28 +70,59 @@ function ShoppingOrderDetailsView({ orderDetails }) {
             </Label>
           </div>
         </div>
+
         <Separator />
+
+        {/* UPDATE ORDER STATUS */}
+        <div className="grid gap-3">
+          <Label>Order Status</Label>
+
+          <select
+            value={orderStatus}
+            onChange={(e) => setOrderStatus(e.target.value)}
+            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+          >
+            <option value="pending">Pending</option>
+            <option value="in process">In Process</option>
+            <option value="in shipping">In Shipping</option>
+            <option value="delivered">Delivered</option>
+            <option value="rejected">Rejected</option>
+          </select>
+
+          <Button onClick={handleUpdateOrderStatus}>
+            Update Order Status
+          </Button>
+        </div>
+
+        <Separator />
+
         <div className="grid gap-4">
           <div className="grid gap-2">
             <div className="font-medium">Order Details</div>
+
             <ul className="grid gap-3">
-              {orderDetails?.cartItems && orderDetails?.cartItems.length > 0
-                ? orderDetails?.cartItems.map((item) => (
-                    <li className="flex items-center justify-between">
-                      <span>Title: {item.title}</span>
-                      <span>Quantity: {item.quantity}</span>
-                      <span>Price: ${item.price}</span>
-                    </li>
-                  ))
-                : null}
+              {orderDetails?.cartItems &&
+              orderDetails?.cartItems.length > 0 ? (
+                orderDetails.cartItems.map((item, index) => (
+                  <li
+                    key={index}
+                    className="flex items-center justify-between"
+                  >
+                    <span>Title: {item.title}</span>
+                    <span>Quantity: {item.quantity}</span>
+                    <span>Price: ${item.price}</span>
+                  </li>
+                ))
+              ) : null}
             </ul>
           </div>
         </div>
+
         <div className="grid gap-4">
           <div className="grid gap-2">
             <div className="font-medium">Shipping Info</div>
+
             <div className="grid gap-0.5 text-muted-foreground">
-              <span>{user.userName}</span>
               <span>{orderDetails?.addressInfo?.address}</span>
               <span>{orderDetails?.addressInfo?.city}</span>
               <span>{orderDetails?.addressInfo?.pincode}</span>
@@ -83,4 +136,4 @@ function ShoppingOrderDetailsView({ orderDetails }) {
   );
 }
 
-export default ShoppingOrderDetailsView;
+export default AdminOrderDetailsView;
