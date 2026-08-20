@@ -64,12 +64,19 @@ const updateOrderStatus = async (req, res) => {
       });
     }
 
-    await Order.findByIdAndUpdate(id, { orderStatus });
+  const updatedOrder = await Order.findByIdAndUpdate(
+  id,
+  { orderStatus },
+  { new: true }
+);
 
-    res.status(200).json({
-      success: true,
-      message: "Order status is updated successfully!",
-    });
+res.status(200).json({
+  success: true,
+  data: updatedOrder,
+  message: "Order status is updated successfully!",
+});
+
+
   } catch (e) {
     console.log(e);
     res.status(500).json({
