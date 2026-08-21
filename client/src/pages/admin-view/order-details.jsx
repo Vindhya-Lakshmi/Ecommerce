@@ -23,10 +23,15 @@ function AdminOrderDetailsView({ orderDetails }) {
 
   console.log(orderDetails, "orderDetailsorderDetails");
 
-  function handleUpdateStatus(event) {
+function handleUpdateStatus(event) {
   event.preventDefault();
 
   const { status } = formData;
+
+  if (!status) {
+    toast.error("Please select a status");
+    return;
+  }
 
   dispatch(
     updateOrderStatus({
@@ -37,14 +42,10 @@ function AdminOrderDetailsView({ orderDetails }) {
     if (data?.payload?.success) {
       dispatch(getOrderDetailsForAdmin(orderDetails?._id));
       dispatch(getAllOrdersForAdmin());
-
       setFormData(initialFormData);
-
       toast.success(data.payload.message);
     } else {
-      toast.error(
-        data?.payload?.message || "Failed to update order status"
-      );
+      toast.error(data?.payload?.message || "Failed to update order status");
     }
   });
 }

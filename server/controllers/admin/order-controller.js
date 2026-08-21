@@ -55,33 +55,33 @@ const updateOrderStatus = async (req, res) => {
     const { id } = req.params;
     const { orderStatus } = req.body;
 
-    const order = await Order.findById(id);
+    const updatedOrder = await Order.findByIdAndUpdate(
+      id,
+      {
+        orderStatus,
+        orderUpdateDate: new Date(),
+      },
+      { new: true }
+    );
 
-    if (!order) {
+    if (!updatedOrder) {
       return res.status(404).json({
         success: false,
         message: "Order not found!",
       });
     }
 
-  const updatedOrder = await Order.findByIdAndUpdate(
-  id,
-  { orderStatus },
-  { new: true }
-);
-
-res.status(200).json({
-  success: true,
-  data: updatedOrder,
-  message: "Order status is updated successfully!",
-});
-
-
+    res.status(200).json({
+      success: true,
+      data: updatedOrder,
+      message: "Order status is updated successfully!",
+    });
   } catch (e) {
     console.log(e);
+
     res.status(500).json({
       success: false,
-      message: "Some error occured!",
+      message: "Some error occurred!",
     });
   }
 };
