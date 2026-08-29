@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
 import { Skeleton } from "@/components/ui/skeleton"
+import SearchProducts from "./pages/shopping-view/search";
 
   function App() {
 
@@ -78,6 +79,7 @@ console.log({
             <Route path="checkout" element={<ShoppingCheckout/>}/>
             <Route path="account" element={<ShoppingAccount/>}/>
             <Route path="listing" element={<ShoppingListing/>}/>
+            <Route path="search" element={<SearchProducts/>}/>
 
           </Route>
         </Route>
