@@ -19,6 +19,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
+  console.log("LOGGED IN USER:", user);
   const { cartItems } = useSelector((state) => state.shopCart);
   const { reviews } = useSelector((state) => state.shopReview);
 
@@ -73,34 +74,38 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
   // Add review
   function handleAddReview() {
-    if (!reviewMsg.trim()) {
-      return;
-    }
-
-    if (rating === 0) {
-      toast.error("Please select a rating");
-      return;
-    }
-
-    dispatch(
-      addReview({
-        productId: productDetails?._id,
-        userId: user?.id,
-        userName: user?.userName,
-        reviewMessage: reviewMsg,
-        reviewValue: rating,
-      })
-    ).then((data) => {
-      if (data?.payload?.success) {
-        setRating(0);
-        setReviewMsg("");
-
-        dispatch(getReviews(productDetails?._id));
-
-        toast.success("Review added successfully!");
-      }
-    });
+  if (!reviewMsg.trim()) {
+    return;
   }
+
+  if (rating === 0) {
+    toast.error("Please select a rating");
+    return;
+  }
+
+  console.log("USER OBJECT:", user);
+  console.log("USER ID:", user?.id);
+  console.log("USER _ID:", user?._id);
+
+  const reviewData = {
+    productId: productDetails?._id,
+    reviewMessage: reviewMsg,
+    reviewValue: rating,
+  };
+
+  console.log("REVIEW DATA:", reviewData);
+
+  dispatch(addReview(reviewData)).then((data) => {
+    if (data?.payload?.success) {
+      setRating(0);
+      setReviewMsg("");
+
+      dispatch(getReviews(productDetails?._id));
+
+      toast.success("Review added successfully!");
+    }
+  });
+}
 
   // Get reviews when product changes
   useEffect(() => {

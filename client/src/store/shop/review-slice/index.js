@@ -9,15 +9,22 @@ const initialState = {
 export const addReview = createAsyncThunk(
   "/order/addReview",
   async (formdata) => {
-    const response = await axios.post(
-      `http://localhost:5000/api/shop/review/add`,
-      formdata
-    );
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/shop/review/add",
+        formdata,
+        {
+          withCredentials: true,
+        }
+      );
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      console.log("ADD REVIEW ERROR:", error.response?.data);
+      throw error;
+    }
   }
 );
-
 export const getReviews = createAsyncThunk("/order/getReviews", async (id) => {
   const response = await axios.get(
     `http://localhost:5000/api/shop/review/${id}`
