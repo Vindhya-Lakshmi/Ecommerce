@@ -30,7 +30,17 @@ const addProductReview = async (req, res) => {
       });
     }
 
-    // rest of code...
+    // Your remaining review code goes here
+
+  } catch (e) {
+    console.log("ADD REVIEW ERROR:", e);
+
+    res.status(500).json({
+      success: false,
+      message: "Error while adding review.",
+    });
+  }
+};
 
 const getProductReviews = async (req, res) => {
   try {
