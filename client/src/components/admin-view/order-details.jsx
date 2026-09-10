@@ -2,7 +2,11 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { DialogContent } from "../ui/dialog";
+import {
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import { updateOrderStatus } from "@/store/admin/order-slice";
@@ -25,6 +29,13 @@ function AdminOrderDetailsView({ orderDetails }) {
 
   return (
     <DialogContent className="sm:max-w-[600px]">
+      <DialogTitle>Order Details</DialogTitle>
+
+      <DialogDescription>
+        View and update the details of this order.
+      </DialogDescription>
+
+
       <div className="grid gap-6">
         <div className="grid gap-2">
           <div className="flex mt-6 items-center justify-between">
@@ -57,13 +68,12 @@ function AdminOrderDetailsView({ orderDetails }) {
 
             <Label>
               <Badge
-                className={`py-1 px-3 ${
-                  orderDetails?.orderStatus === "confirmed"
+                className={`py-1 px-3 ${orderDetails?.orderStatus === "confirmed"
                     ? "bg-green-500"
                     : orderDetails?.orderStatus === "rejected"
-                    ? "bg-red-600"
-                    : "bg-black"
-                }`}
+                      ? "bg-red-600"
+                      : "bg-black"
+                  }`}
               >
                 {orderDetails?.orderStatus}
               </Badge>
@@ -77,18 +87,18 @@ function AdminOrderDetailsView({ orderDetails }) {
         <div className="grid gap-3">
           <Label>Order Status</Label>
 
-<select
-  value={orderStatus}
-  onChange={(e) => setOrderStatus(e.target.value)}
-  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
->
-  <option value="pending">Pending</option>
-  <option value="confirmed">Confirmed</option>
-  <option value="in process">In Process</option>
-  <option value="in shipping">In Shipping</option>
-  <option value="delivered">Delivered</option>
-  <option value="rejected">Rejected</option>
-</select>
+          <select
+            value={orderStatus}
+            onChange={(e) => setOrderStatus(e.target.value)}
+            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+          >
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="in process">In Process</option>
+            <option value="in shipping">In Shipping</option>
+            <option value="delivered">Delivered</option>
+            <option value="rejected">Rejected</option>
+          </select>
 
           <Button onClick={handleUpdateOrderStatus}>
             Update Order Status
@@ -103,7 +113,7 @@ function AdminOrderDetailsView({ orderDetails }) {
 
             <ul className="grid gap-3">
               {orderDetails?.cartItems &&
-              orderDetails?.cartItems.length > 0 ? (
+                orderDetails?.cartItems.length > 0 ? (
                 orderDetails.cartItems.map((item, index) => (
                   <li
                     key={index}

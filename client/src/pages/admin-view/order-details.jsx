@@ -1,6 +1,11 @@
 import { useState } from "react";
 import CommonForm from "../common/form";
-import { DialogContent } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import { Badge } from "../ui/badge";
@@ -52,6 +57,11 @@ function handleUpdateStatus(event) {
 
   return (
     <DialogContent className="sm:max-w-[600px]">
+      <DialogTitle>Order Details</DialogTitle>
+
+<DialogDescription>
+  View and update the details of this order.
+</DialogDescription>
       <div className="grid gap-6">
         <div className="grid gap-2">
           <div className="flex mt-6 items-center justify-between">
@@ -132,8 +142,8 @@ function handleUpdateStatus(event) {
                 options: [
                   { id: "pending", label: "Pending" },
                   { id: "confirmed", label: "Confirmed" },
-                  { id: "inProcess", label: "In Process" },
-                  { id: "inShipping", label: "In Shipping" },
+                  { id: "in Process", label: "In Process" },
+                  { id: "in Shipping", label: "In Shipping" },
                   { id: "delivered", label: "Delivered" },
                   { id: "rejected", label: "Rejected" },
                 ],

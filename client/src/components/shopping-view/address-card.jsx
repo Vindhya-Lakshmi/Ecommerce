@@ -9,6 +9,7 @@ function AddressCard({
   setCurrentSelectedAddress,
   selectedId,
 }) {
+  console.log(selectedId, addressInfo?._id);
   return (
     <Card
       onClick={

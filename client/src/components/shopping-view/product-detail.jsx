@@ -1,6 +1,11 @@
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { Dialog, DialogContent } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
 import { useDispatch, useSelector } from "react-redux";
@@ -138,6 +143,11 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
           lg:max-w-[70vw]
         "
       >
+        <DialogTitle>Product Details</DialogTitle>
+
+<DialogDescription>
+  View product details, ratings, reviews, and add the product to your cart.
+</DialogDescription>
         {/* ================= LEFT SIDE - PRODUCT IMAGE ================= */}
         <div className="relative overflow-hidden rounded-lg">
           <img
