@@ -13,6 +13,7 @@ const shopOrderRouter = require("./routes/shop/order-routes");
 const shopShopRouter = require("./routes/shop/shop-routes");
 const shopReviewRouter = require("./routes/shop/review-routes");
 
+const commonFeatureRouter = require("./routes/common/feature-routes");
 
 // mongoose.connect('mongodb+srv://vindhyalakshmiofficial_db_user:vindhya1@cluster0.eccgabx.mongodb.net/')
 // const uri = 'mongodb+srv://vindhyalakshmiofficial_db_user:vindhya1@cluster0.eccgabx.mongodb.net/';
@@ -51,5 +52,7 @@ app.use("/api/shop/address", shopAddressRouter)
 app.use("/api/shop/order", shopOrderRouter);
 app.use("/api/shop/search", shopShopRouter);
 app.use("/api/shop/review", shopReviewRouter);
+
+app.use("/api/common/feature", commonFeatureRouter);
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

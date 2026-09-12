@@ -6,7 +6,6 @@ const {
 
 } = require("../../controllers/shop/products-controller");
 
-
 const router = express.Router();
 
 

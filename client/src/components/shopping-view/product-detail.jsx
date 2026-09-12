@@ -90,7 +90,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
   console.log("USER OBJECT:", user);
   console.log("USER ID:", user?.id);
-  console.log("USER _ID:", user?._id);
+  console.log("USER _ID:", user?.id);
 
   const reviewData = {
     productId: productDetails?._id,

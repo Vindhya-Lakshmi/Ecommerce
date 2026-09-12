@@ -12,10 +12,6 @@ const addProductReview = async (req, res) => {
     console.log("USER ID:", userId);
     console.log("PRODUCT ID:", productId);
 
-    const orders = await Order.find({ userId });
-
-    console.log("USER ORDERS:", JSON.stringify(orders, null, 2));
-
     const order = await Order.findOne({
       userId,
       "cartItems.productId": productId,
@@ -30,8 +26,21 @@ const addProductReview = async (req, res) => {
       });
     }
 
-    // Your remaining review code goes here
+    const newReview = new ProductReview({
+      productId,
+      userId,
+      userName,
+      reviewMessage,
+      reviewValue,
+    });
 
+    await newReview.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Review added successfully!",
+      data: newReview,
+    });
   } catch (e) {
     console.log("ADD REVIEW ERROR:", e);
 
