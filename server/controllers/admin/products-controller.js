@@ -54,8 +54,7 @@ const addProduct = async (req, res) => {
       totalStock,
     });
 
-console.log("New Address:", newlyCreatedAddress);
-
+console.log("New Product:", newlyCreatedProduct);
 
     await newlyCreatedProduct.save();
 

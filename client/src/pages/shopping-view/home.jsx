@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import bannerOne from "../../assets/banner-1.webp";
-import bannerTwo from "../../assets/banner-2.webp";
-import bannerThree from "../../assets/banner-3.webp";
+// import bannerOne from "../../assets/banner-1.webp";
+// import bannerTwo from "../../assets/banner-2.webp";
+// import bannerThree from "../../assets/banner-3.webp";
 import {
   Airplay,
   BabyIcon,
@@ -29,12 +29,13 @@ import { useNavigate } from "react-router-dom";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { toast } from "sonner";
 import ProductDetailsDialog from "@/components/shopping-view/product-detail";
+import { getFeatureImages } from "@/store/common-slice";
 
-const featureImageList = [
-  { image: bannerOne },
-  { image: bannerTwo },
-  { image: bannerThree },
-];
+// const featureImageList = [
+//   { image: bannerOne },
+//   { image: bannerTwo },
+//   { image: bannerThree },
+// ];
 
 
 const categoriesWithIcon = [
@@ -58,7 +59,7 @@ function ShoppingHome() {
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
   );
-
+  const { featureImageList } = useSelector((state) => state.commonFeature);
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
 
   const { user } = useSelector((state) => state.auth);
@@ -100,12 +101,15 @@ function ShoppingHome() {
   }, [productDetails]);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % featureImageList.length);
-    }, 15000);
+  if (!featureImageList || featureImageList.length === 0) return;
+  const timer = setInterval(() => {
+    setCurrentSlide((prevSlide) => (prevSlide + 1) % featureImageList.length);
+  }, 4000);
 
-    return () => clearInterval(timer);
-  }, [featureImageList]);
+  return () => clearInterval(timer);
+}, [featureImageList]);
+
+  
 
   useEffect(() => {
     dispatch(
@@ -118,22 +122,29 @@ function ShoppingHome() {
 
   console.log(productList, "productList");
 
+  useEffect(() => {
+      dispatch(getFeatureImages());
+    }, [dispatch]);
  
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="relative w-full h-[600px] overflow-hidden">
-        {featureImageList && featureImageList.length > 0
-          ? featureImageList.map((slide, index) => (
-              <img
-                src={slide?.image}
-                key={index}
-                className={`${
-                  index === currentSlide ? "opacity-100" : "opacity-0"
-                } absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
-              />
-            ))
-          : null}
+      <div className="relative w-full h-[600px] overflow-hidden bg-gray-100">
+  {featureImageList && featureImageList.length > 0 ? (
+    featureImageList.map((slide, index) => (
+      <img
+        src={slide?.image}
+        key={index}
+        className={`${
+          index === currentSlide ? "opacity-100" : "opacity-0"
+        } absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
+      />
+    ))
+  ) : (
+    <div className="flex items-center justify-center h-full text-gray-400">
+      Loading banners...
+    </div>
+  )}
         <Button
           variant="outline"
           size="icon"
