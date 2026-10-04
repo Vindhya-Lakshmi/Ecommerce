@@ -103,6 +103,24 @@ const getOrderDetails = async (req, res) => {
     });
   }
 };
+// DELETE ALL ORDERS
+const deleteAllOrders = async (req, res) => {
+  try {
+    await Order.deleteMany({});
+
+    res.status(200).json({
+      success: true,
+      message: "All orders deleted successfully",
+    });
+  } catch (e) {
+    console.log("DELETE ALL ORDERS ERROR:", e);
+
+    res.status(500).json({
+      success: false,
+      message: "Some error occurred!",
+    });
+  }
+};
 
 
 // EXPORT FUNCTIONS
@@ -110,4 +128,5 @@ module.exports = {
   createOrder,
   getAllOrdersByUser,
   getOrderDetails,
+  deleteAllOrders,
 };

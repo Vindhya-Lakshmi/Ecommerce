@@ -1,6 +1,10 @@
 import ProductImageUpload from "@/components/admin-view/image-upload";
 import { Button } from "@/components/ui/button";
-import { addFeatureImage, getFeatureImages } from "@/store/common-slice";
+import {
+  addFeatureImage,
+  getFeatureImages,
+  deleteFeatureImage,
+} from "@/store/common-slice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -32,6 +36,13 @@ function AdminDashboard() {
       }
     });
   }
+  function handleDeleteFeatureImage(id) {
+  dispatch(deleteFeatureImage(id)).then((data) => {
+    if (data?.payload?.success) {
+      dispatch(getFeatureImages());
+    }
+  });
+}
 
   useEffect(() => {
     dispatch(getFeatureImages());
@@ -61,17 +72,28 @@ function AdminDashboard() {
         {featureImageList?.length > 0 &&
           featureImageList.map((featureImgItem) => (
             <div
-              key={featureImgItem._id}
-              className="relative"
-            >
-              {featureImgItem.image && (
-                <img
-                  src={featureImgItem.image}
-                  alt="Feature"
-                  className="w-full h-[300px] object-cover rounded-t-lg"
-                />
-              )}
-            </div>
+  key={featureImgItem._id}
+  className="relative"
+>
+  {featureImgItem.image && (
+    <>
+      <img
+        src={featureImgItem.image}
+        alt="Feature"
+        className="w-full h-[300px] object-cover rounded-t-lg"
+      />
+
+      <Button
+        onClick={() =>
+          handleDeleteFeatureImage(featureImgItem._id)
+        }
+        className="mt-2 w-full bg-red-500 hover:bg-red-600"
+      >
+        Delete
+      </Button>
+    </>
+  )}
+</div>
           ))}
       </div>
     </div>
