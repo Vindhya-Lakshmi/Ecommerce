@@ -87,6 +87,32 @@ export const getOrderDetails = createAsyncThunk(
   }
 );
 
+// Delete all orders
+export const deleteAllOrders = createAsyncThunk(
+  "/order/deleteAllOrders",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(
+        "http://localhost:5000/api/shop/order/delete-all",
+        {
+          withCredentials: true,
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.log("DELETE ALL ORDERS ERROR:", error.response?.data);
+
+      return rejectWithValue(
+        error.response?.data || {
+          success: false,
+          message: "Failed to delete all orders",
+        }
+      );
+    }
+  }
+);
+
 const shoppingOrderSlice = createSlice({
   name: "shoppingOrderSlice",
 
@@ -95,6 +121,10 @@ const shoppingOrderSlice = createSlice({
   reducers: {
     resetOrderDetails: (state) => {
       state.orderDetails = null;
+    },
+
+    resetOrderId: (state) => {
+      state.orderId = null;
     },
   },
 
@@ -109,12 +139,13 @@ const shoppingOrderSlice = createSlice({
       .addCase(createNewOrder.fulfilled, (state, action) => {
         state.isLoading = false;
 
-        state.orderId = action.payload?.data?._id || null;
+        const newOrder = action.payload?.data;
 
-        state.orderList = [
-          ...state.orderList,
-          action.payload?.data,
-        ];
+        state.orderId = newOrder?._id || null;
+
+        if (newOrder) {
+          state.orderList.push(newOrder);
+        }
       })
 
       .addCase(createNewOrder.rejected, (state) => {
@@ -150,10 +181,32 @@ const shoppingOrderSlice = createSlice({
       .addCase(getOrderDetails.rejected, (state) => {
         state.isLoading = false;
         state.orderDetails = null;
+      })
+
+      // DELETE ALL ORDERS
+      .addCase(deleteAllOrders.pending, (state) => {
+        state.isLoading = true;
+      })
+
+      .addCase(deleteAllOrders.fulfilled, (state, action) => {
+        state.isLoading = false;
+
+        if (action.payload?.success) {
+          state.orderList = [];
+          state.orderDetails = null;
+          state.orderId = null;
+        }
+      })
+
+      .addCase(deleteAllOrders.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });
 
-export const { resetOrderDetails } = shoppingOrderSlice.actions;
+export const {
+  resetOrderDetails,
+  resetOrderId,
+} = shoppingOrderSlice.actions;
 
 export default shoppingOrderSlice.reducer;
