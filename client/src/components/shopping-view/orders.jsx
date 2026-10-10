@@ -38,12 +38,12 @@ function ShoppingOrders() {
     dispatch(getOrderDetails(getId));
   }
 
-  // FIXED
-  useEffect(() => {
-    if (user?.id) {
-      dispatch(getAllOrdersByUserId(user.id));
-    }
-  }, [dispatch, user?.id]);
+  
+ useEffect(() => {
+  if (user?.id) {
+    dispatch(getAllOrdersByUserId());
+  }
+}, [dispatch, user?.id]);
 
   useEffect(() => {
     if (orderDetails !== null) {

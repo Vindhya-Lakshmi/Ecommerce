@@ -1,4 +1,12 @@
-import {  House, LogOut, Menu, ShoppingCart, UserCog } from "lucide-react";
+import {
+  House,
+  LogOut,
+  Menu,
+  ShoppingCart,
+  UserCog,
+  Package,
+  Heart,
+} from "lucide-react";
 import {
   Link,
   useLocation,
@@ -6,7 +14,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import { Button } from "../ui/button";import { useDispatch, useSelector } from "react-redux";
+import { Button } from "../ui/button"; import { useDispatch, useSelector } from "react-redux";
 import { shoppingViewHeaderMenuItems } from "@/config";
 import {
   DropdownMenu,
@@ -32,19 +40,19 @@ function MenuItems() {
     sessionStorage.removeItem("filters");
     const currentFilter =
       getCurrentMenuItem.id !== "home" &&
-      getCurrentMenuItem.id !== "products" &&
-      getCurrentMenuItem.id !== "search"
+        getCurrentMenuItem.id !== "products" &&
+        getCurrentMenuItem.id !== "search"
         ? {
-            category: [getCurrentMenuItem.id],
-          }
+          category: [getCurrentMenuItem.id],
+        }
         : null;
 
     sessionStorage.setItem("filters", JSON.stringify(currentFilter));
 
     location.pathname.includes("listing") && currentFilter !== null
       ? setSearchParams(
-          new URLSearchParams(`?category=${getCurrentMenuItem.id}`)
-        )
+        new URLSearchParams(`?category=${getCurrentMenuItem.id}`)
+      )
       : navigate(getCurrentMenuItem.path);
   }
 
@@ -74,14 +82,14 @@ function HeaderRightContent() {
     dispatch(logoutUser());
   }
 
-useEffect(() => {
-  if (user?.id) {
-    dispatch(fetchCartItems(user.id));
-  }
-}, [dispatch, user]);
-  
+  useEffect(() => {
+    if (user?.id) {
+      dispatch(fetchCartItems(user.id));
+    }
+  }, [dispatch, user]);
 
-console.log("User:", user);
+
+  console.log("User:", user);
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
       <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
@@ -119,11 +127,28 @@ console.log("User:", user);
           <DropdownMenuLabel>Logged in as {user?.userName}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => navigate("/shop/account")}>
-            <UserCog className="mr-2 h-4 w-4" />
-            Account
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleLogout}>
+            <DropdownMenuItem onClick={() => navigate("/shop/account")}>
+              <UserCog className="mr-2 h-4 w-4" />
+              Account
+            </DropdownMenuItem>
+
+            <DropdownMenuItem onClick={() => navigate("/shop/account/orders")}>
+              <Package className="mr-2 h-4 w-4" />
+              My Orders
+            </DropdownMenuItem>
+
+            <DropdownMenuItem onClick={() => navigate("/shop/account/wishlist")}>
+              <Heart className="mr-2 h-4 w-4" />
+              Wishlist
+            </DropdownMenuItem>
+
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              Logout
+            </DropdownMenuItem>
+
             <LogOut className="mr-2 h-4 w-4" />
             Logout
           </DropdownMenuItem>
@@ -140,7 +165,7 @@ function ShoppingHeader() {
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
         <Link to="/shop/home" className="flex items-center gap-2">
-          <House className="h-6 w-6"/>
+          <House className="h-6 w-6" />
           <span className="font-bold">Ecommerce</span>
         </Link>
         <Sheet>

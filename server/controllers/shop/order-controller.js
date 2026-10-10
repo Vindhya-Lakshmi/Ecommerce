@@ -1,39 +1,29 @@
+
 const Order = require("../../models/Order");
 const Cart = require("../../models/Cart");
 
 // CREATE COD ORDER
 const createOrder = async (req, res) => {
   try {
-    const {
-      userId,
-      cartItems,
-      addressInfo,
-      totalAmount,
-      cartId,
-    } = req.body;
+    const { cartItems, addressInfo, totalAmount, cartId } = req.body;
 
     const newlyCreatedOrder = new Order({
-      userId,
+      userId: req.user.id,
       cartId,
       cartItems,
       addressInfo,
-
       orderStatus: "pending",
       paymentMethod: "cod",
       paymentStatus: "pending",
-
       totalAmount,
-
       orderDate: new Date(),
       orderUpdateDate: new Date(),
-
       paymentId: "",
       payerId: "",
     });
 
     await newlyCreatedOrder.save();
 
-    // Delete cart after successful order creation
     if (cartId) {
       await Cart.findByIdAndDelete(cartId);
     }
@@ -43,9 +33,8 @@ const createOrder = async (req, res) => {
       message: "Order placed successfully",
       data: newlyCreatedOrder,
     });
-  } catch (e) {
-    console.log("CREATE ORDER ERROR:", e);
-
+  } catch (error) {
+    console.log("CREATE ORDER ERROR:", error);
     res.status(500).json({
       success: false,
       message: "Some error occurred!",
@@ -53,21 +42,18 @@ const createOrder = async (req, res) => {
   }
 };
 
-
-// GET ALL ORDERS BY USER
+// GET ORDERS FOR THE LOGGED-IN USER
 const getAllOrdersByUser = async (req, res) => {
   try {
-    const { userId } = req.params;
-
-    const orders = await Order.find({ userId });
+    const orders = await Order.find({ userId: req.user.id })
+      .sort({ orderDate: -1 });
 
     res.status(200).json({
       success: true,
       data: orders,
     });
-  } catch (e) {
-    console.log("GET ORDERS ERROR:", e);
-
+  } catch (error) {
+    console.log("GET ORDERS ERROR:", error);
     res.status(500).json({
       success: false,
       message: "Some error occurred!",
@@ -75,13 +61,13 @@ const getAllOrdersByUser = async (req, res) => {
   }
 };
 
-
-// GET SINGLE ORDER DETAILS
+// GET ORDER DETAILS ONLY IF IT BELONGS TO THE USER
 const getOrderDetails = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const order = await Order.findById(id);
+    const order = await Order.findOne({
+      _id: req.params.id,
+      userId: req.user.id,
+    });
 
     if (!order) {
       return res.status(404).json({
@@ -94,16 +80,17 @@ const getOrderDetails = async (req, res) => {
       success: true,
       data: order,
     });
-  } catch (e) {
-    console.log("GET ORDER DETAILS ERROR:", e);
-
+  } catch (error) {
+    console.log("GET ORDER DETAILS ERROR:", error);
     res.status(500).json({
       success: false,
       message: "Some error occurred!",
     });
   }
 };
+
 // DELETE ALL ORDERS
+// Restrict this operation to admins in the routes.
 const deleteAllOrders = async (req, res) => {
   try {
     await Order.deleteMany({});
@@ -112,9 +99,8 @@ const deleteAllOrders = async (req, res) => {
       success: true,
       message: "All orders deleted successfully",
     });
-  } catch (e) {
-    console.log("DELETE ALL ORDERS ERROR:", e);
-
+  } catch (error) {
+    console.log("DELETE ALL ORDERS ERROR:", error);
     res.status(500).json({
       success: false,
       message: "Some error occurred!",
@@ -122,8 +108,6 @@ const deleteAllOrders = async (req, res) => {
   }
 };
 
-
-// EXPORT FUNCTIONS
 module.exports = {
   createOrder,
   getAllOrdersByUser,

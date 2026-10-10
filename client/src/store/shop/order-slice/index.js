@@ -36,12 +36,13 @@ export const createNewOrder = createAsyncThunk(
 );
 
 // Get all orders of current user
+
 export const getAllOrdersByUserId = createAsyncThunk(
   "/order/getAllOrdersByUserId",
-  async (userId, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/shop/order/list/${userId}`,
+        "http://localhost:5000/api/shop/order/list",
         {
           withCredentials: true,
         }
@@ -60,6 +61,7 @@ export const getAllOrdersByUserId = createAsyncThunk(
     }
   }
 );
+
 
 // Get single order details
 export const getOrderDetails = createAsyncThunk(
