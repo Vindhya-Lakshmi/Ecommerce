@@ -5,6 +5,7 @@ const {
   createOrder,
   getAllOrdersByUser,
   getOrderDetails,
+  cancelOrder,
   deleteAllOrders,
 } = require("../../controllers/shop/order-controller");
 
@@ -21,6 +22,7 @@ router.get("/list", authMiddleware, getAllOrdersByUser);
 
 router.get("/details/:id", authMiddleware, getOrderDetails);
 
+router.patch("/cancel/:id", authMiddleware, cancelOrder);
 // Temporary: keep this route disabled until admin-only
 // authorization is added.
 router.delete("/delete-all", authMiddleware, (req, res) => {

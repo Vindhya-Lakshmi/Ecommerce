@@ -88,6 +88,46 @@ const getOrderDetails = async (req, res) => {
     });
   }
 };
+// CANCEL ORDER — only the owner can cancel an eligible order
+const cancelOrder = async (req, res) => {
+  try {
+    const order = await Order.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        userId: req.user.id,
+        orderStatus: { $in: ["pending", "confirmed"] },
+      },
+      {
+        $set: {
+          orderStatus: "cancelled",
+          orderUpdateDate: new Date(),
+        },
+      },
+      { returnDocument: "after" }
+    );
+
+    if (!order) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Order not found, or it can no longer be cancelled.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Order cancelled successfully.",
+      data: order,
+    });
+  } catch (error) {
+    console.log("CANCEL ORDER ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to cancel order.",
+    });
+  }
+};
 
 // DELETE ALL ORDERS
 // Restrict this operation to admins in the routes.
@@ -112,5 +152,6 @@ module.exports = {
   createOrder,
   getAllOrdersByUser,
   getOrderDetails,
+  cancelOrder,
   deleteAllOrders,
 };

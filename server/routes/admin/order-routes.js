@@ -2,11 +2,10 @@
 const express = require("express");
 
 const {
-  createOrder,
-  getAllOrdersByUser,
-  getOrderDetails,
-  deleteAllOrders,
-} = require("../../controllers/shop/order-controller");
+  getAllOrdersOfAllUsers,
+  getOrderDetailsForAdmin,
+  updateOrderStatus,
+} = require("../../controllers/admin/order-controller");
 
 const {
   authMiddleware,
@@ -14,21 +13,37 @@ const {
 
 const router = express.Router();
 
-router.post("/create", authMiddleware, createOrder);
-
-router.get("/list", authMiddleware, getAllOrdersByUser);
-
-router.get("/details/:id", authMiddleware, getOrderDetails);
-
-router.delete("/delete-all", authMiddleware, (req, res) => {
-  if (req.user.role !== "admin") {
+// Admin-only authorization
+const adminMiddleware = (req, res, next) => {
+  if (req.user?.role !== "admin") {
     return res.status(403).json({
       success: false,
-      message: "Access denied",
+      message: "Admin access required",
     });
   }
 
-  deleteAllOrders(req, res);
-});
+  next();
+};
+
+router.get(
+  "/get",
+  authMiddleware,
+  adminMiddleware,
+  getAllOrdersOfAllUsers
+);
+
+router.get(
+  "/details/:id",
+  authMiddleware,
+  adminMiddleware,
+  getOrderDetailsForAdmin
+);
+
+router.put(
+  "/update/:id",
+  authMiddleware,
+  adminMiddleware,
+  updateOrderStatus
+);
 
 module.exports = router;

@@ -1,6 +1,10 @@
 import { useSelector } from "react-redux";
 import { Badge } from "../ui/badge";
-import { DialogContent } from "../ui/dialog";
+import {
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 
@@ -9,6 +13,10 @@ function ShoppingOrderDetailsView({ orderDetails }) {
 
   return (
     <DialogContent className="sm:max-w-[600px]">
+      <DialogTitle>Order Details</DialogTitle>
+      <DialogDescription>
+        View your order summary, payment information, and shipping details.
+      </DialogDescription>
       <div className="grid gap-6">
         <div className="grid gap-2">
           <div className="flex mt-6 items-center justify-between">
@@ -17,8 +25,7 @@ function ShoppingOrderDetailsView({ orderDetails }) {
           </div>
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Order Date</p>
-            <Label>{orderDetails?.orderDate.split("T")[0]}</Label>
-          </div>
+            <Label>{orderDetails?.orderDate?.split("T")[0] || "N/A"}</Label>          </div>
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Order Price</p>
             <Label>${orderDetails?.totalAmount}</Label>
@@ -35,13 +42,12 @@ function ShoppingOrderDetailsView({ orderDetails }) {
             <p className="font-medium">Order Status</p>
             <Label>
               <Badge
-                className={`py-1 px-3 ${
-                  orderDetails?.orderStatus === "confirmed"
-                    ? "bg-green-500"
-                    : orderDetails?.orderStatus === "rejected"
+                className={`py-1 px-3 ${orderDetails?.orderStatus === "confirmed"
+                  ? "bg-green-500"
+                  : orderDetails?.orderStatus === "rejected"
                     ? "bg-red-600"
                     : "bg-black"
-                }`}
+                  }`}
               >
                 {orderDetails?.orderStatus}
               </Badge>
@@ -55,12 +61,12 @@ function ShoppingOrderDetailsView({ orderDetails }) {
             <ul className="grid gap-3">
               {orderDetails?.cartItems && orderDetails?.cartItems.length > 0
                 ? orderDetails?.cartItems.map((item) => (
-                    <li className="flex items-center justify-between">
-                      <span>Title: {item.title}</span>
-                      <span>Quantity: {item.quantity}</span>
-                      <span>Price: ${item.price}</span>
-                    </li>
-                  ))
+                  <li className="flex items-center justify-between">
+                    <span>Title: {item.title}</span>
+                    <span>Quantity: {item.quantity}</span>
+                    <span>Price: ${item.price}</span>
+                  </li>
+                ))
                 : null}
             </ul>
           </div>
@@ -69,8 +75,7 @@ function ShoppingOrderDetailsView({ orderDetails }) {
           <div className="grid gap-2">
             <div className="font-medium">Shipping Info</div>
             <div className="grid gap-0.5 text-muted-foreground">
-              <span>{user.userName}</span>
-              <span>{orderDetails?.addressInfo?.address}</span>
+              <span>{user?.userName || "Customer"}</span>              <span>{orderDetails?.addressInfo?.address}</span>
               <span>{orderDetails?.addressInfo?.city}</span>
               <span>{orderDetails?.addressInfo?.pincode}</span>
               <span>{orderDetails?.addressInfo?.phone}</span>
