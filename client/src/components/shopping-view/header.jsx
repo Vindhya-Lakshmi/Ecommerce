@@ -115,45 +115,55 @@ function HeaderRightContent() {
         />
       </Sheet>
 
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar className="bg-black">
+          <Avatar className="bg-black cursor-pointer">
             <AvatarFallback className="bg-black text-white font-extrabold">
-              {user?.userName ? user.userName[0].toUpperCase() : "U"}
+              {user?.userName
+                ? user.userName[0].toUpperCase()
+                : "U"}
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
+
         <DropdownMenuContent side="right" className="w-56">
-          <DropdownMenuLabel>Logged in as {user?.userName}</DropdownMenuLabel>
+          <DropdownMenuLabel>
+            Logged in as {user?.userName}
+          </DropdownMenuLabel>
+
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => navigate("/shop/account")}>
-            <DropdownMenuItem onClick={() => navigate("/shop/account")}>
-              <UserCog className="mr-2 h-4 w-4" />
-              Account
-            </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={() => navigate("/shop/account/orders")}>
-              <Package className="mr-2 h-4 w-4" />
-              My Orders
-            </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => navigate("/shop/account")}
+          >
+            <UserCog className="mr-2 h-4 w-4" />
+            Account
+          </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={() => navigate("/shop/account/wishlist")}>
-              <Heart className="mr-2 h-4 w-4" />
-              Wishlist
-            </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => navigate("/shop/account/orders")}
+          >
+            <Package className="mr-2 h-4 w-4" />
+            My Orders
+          </DropdownMenuItem>
 
-            <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => navigate("/shop/account/wishlist")}
+          >
+            <Heart className="mr-2 h-4 w-4 text-red-500" />
+            Wishlist
+          </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={handleLogout}>
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </DropdownMenuItem>
+          <DropdownMenuSeparator />
 
+          <DropdownMenuItem onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
             Logout
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
     </div>
   );
 }
