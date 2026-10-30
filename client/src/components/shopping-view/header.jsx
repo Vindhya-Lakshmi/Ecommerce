@@ -149,7 +149,7 @@ function HeaderRightContent() {
           </DropdownMenuItem>
 
           <DropdownMenuItem
-            onClick={() => navigate("/shop/account/wishlist")}
+            onClick={() => navigate("/shop/wishlist")}
           >
             <Heart className="mr-2 h-4 w-4 text-red-500" />
             Wishlist

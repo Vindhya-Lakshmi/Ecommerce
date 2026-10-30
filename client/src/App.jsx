@@ -22,6 +22,7 @@ import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
 import { Skeleton } from "@/components/ui/skeleton"
 import SearchProducts from "./pages/shopping-view/search";
+import ShoppingWishlist from "./pages/shopping-view/wishlist";
 
   function App() {
 
@@ -97,6 +98,7 @@ console.log({
     <Route path="checkout" element={<ShoppingCheckout />} />
     <Route path="account" element={<ShoppingAccount />} />
     <Route path="search" element={<SearchProducts />} />
+    <Route path="wishlist" element={<ShoppingWishlist />} />
   </Route>
 
   <Route path="/unauth-page" element={<UnauthPage />} />
