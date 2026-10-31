@@ -4,15 +4,18 @@ import Address from "@/components/shopping-view/address";
 import ShoppingOrders from "@/components/shopping-view/orders";
 
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { logoutUser } from "@/store/auth-slice";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import { toast } from "sonner";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function ShoppingAccount() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get("tab") || "orders";
 
   async function handleLogout() {
     try {
@@ -49,8 +52,10 @@ function ShoppingAccount() {
             </Button>
           </div>
 
-          <Tabs defaultValue="orders">
-            <TabsList>
+          <Tabs
+            value={activeTab}
+            onValueChange={(value) => setSearchParams({ tab: value })}
+          >            <TabsList>
               <TabsTrigger value="orders">Orders</TabsTrigger>
               <TabsTrigger value="address">Address</TabsTrigger>
             </TabsList>

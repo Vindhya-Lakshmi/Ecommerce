@@ -135,14 +135,14 @@ function HeaderRightContent() {
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
-            onClick={() => navigate("/shop/account")}
+            onClick={() => navigate("/shop/account?tab=address")}
           >
             <UserCog className="mr-2 h-4 w-4" />
             Account
           </DropdownMenuItem>
 
           <DropdownMenuItem
-            onClick={() => navigate("/shop/account/orders")}
+            onClick={() => navigate("/shop/account?tab=orders")}
           >
             <Package className="mr-2 h-4 w-4" />
             My Orders

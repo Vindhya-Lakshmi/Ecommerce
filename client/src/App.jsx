@@ -23,7 +23,7 @@ import { checkAuth } from "./store/auth-slice";
 import { Skeleton } from "@/components/ui/skeleton"
 import SearchProducts from "./pages/shopping-view/search";
 import ShoppingWishlist from "./pages/shopping-view/wishlist";
-
+import ShoppingOrders from "./components/shopping-view/orders";
   function App() {
 
 
